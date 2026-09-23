@@ -1,0 +1,25 @@
+# GitHub Actions workflow: runs our test automatically.
+# "Actions" is GitHub's built-in robot; this file is the recipe it follows.
+
+name: Test
+
+# When should the robot run? On every push to main, and on every pull request.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest # Use a fresh Linux machine provided by GitHub.
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v4 # Download this repository onto the machine.
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4 # Install Node so we can run test.js.
+        with:
+          node-version: "20"
+
+      - name: Run the test
+        run: node test.js # Run our test; if it fails, this whole run fails.
